@@ -7,11 +7,575 @@
 
     <title>Smart Travel Planner</title>
 
-    <link rel="stylesheet"
-          href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
 
-    <link rel="stylesheet"
-          href="{{ url_for('static', filename='css/home.css') }}">
+        /* ================= GENERAL ================= */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f8f5ee;
+            color: #123e67;
+        }
+
+
+        /* ================= NAVBAR ================= */
+
+        .navbar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 82px;
+            padding: 12px 5%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 20;
+            color: white;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-icon {
+            font-size: 42px;
+        }
+
+        .logo-text h2 {
+            font-size: 25px;
+            margin-bottom: 2px;
+        }
+
+        .logo-text p {
+            font-size: 10px;
+            letter-spacing: 3px;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 35px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 15px;
+            padding: 10px 3px;
+            transition: 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #ffd15c;
+        }
+
+        .nav-links a.active {
+            border-bottom: 3px solid #5db7ff;
+        }
+
+        .nav-icons {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .search-icon {
+            font-size: 32px;
+            cursor: pointer;
+        }
+
+        .profile-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: white;
+            color: #17619c;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+
+        /* ================= HERO ================= */
+
+        .hero {
+            height: 620px;
+            min-height: 620px;
+            position: relative;
+
+            background-image:
+                linear-gradient(
+                    90deg,
+                    rgba(5, 35, 65, 0.68),
+                    rgba(5, 35, 65, 0.08)
+                ),
+                url("/static/image/hero.jpg");
+
+            background-size: cover;
+            background-position: center;
+            padding: 125px 8% 100px;
+            color: white;
+        }
+
+        .hero-content {
+            max-width: 650px;
+        }
+
+        .small-heading {
+            font-size: 14px;
+            letter-spacing: 3px;
+            margin-bottom: 18px;
+        }
+
+        .hero h1 {
+            font-size: 55px;
+            line-height: 1.04;
+            font-weight: 800;
+            text-shadow: 2px 3px 8px rgba(0,0,0,0.3);
+        }
+
+        .hero h1 span {
+            color: #ffd15c;
+        }
+
+        .hero-text {
+            font-size: 19px;
+            margin-top: 20px;
+        }
+
+        .features {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+            margin-top: 28px;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+        }
+
+        .feature-item b {
+            font-size: 22px;
+        }
+
+
+        /* ================= TRIP BOX ================= */
+
+        .trip-box {
+            position: absolute;
+            bottom: -45px;
+            left: 7%;
+            width: 86%;
+            min-height: 105px;
+            background: white;
+            border-radius: 25px;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 12px 35px rgba(0,0,0,0.18);
+            color: #173e65;
+            z-index: 5;
+        }
+
+        .input-box {
+            flex: 1;
+            min-width: 0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 18px;
+            border-right: 1px solid #ddd;
+            border: none !important;
+        }
+
+        .input-icon {
+            font-size: 24px;
+            flex-shrink: 0;
+        }
+
+        .input-content {
+            min-width: 0;
+            width: 100%;
+        }
+
+        .input-box label {
+            display: block;
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 7px;
+        }
+
+        .input-box input {
+            border: none;
+            outline: none;
+            width: 100%;
+            font-size: 13px;
+            color: #777;
+            background: transparent;
+        }
+
+        .plan-btn {
+            border: none;
+            background: #1262a3;
+            color: white;
+            padding: 19px 27px;
+            border-radius: 35px;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: 0.3s;
+            text-decoration: none !important;
+        }
+
+        .plan-btn:hover {
+            background: #0b477a;
+            transform: translateY(-2px);
+        }
+
+
+        /* ================= DESTINATIONS ================= */
+
+        .destinations {
+            padding: 105px 5% 65px;
+            background: #f8f5ee;
+        }
+
+        .section-heading {
+            display: flex;
+            align-items: end;
+            justify-content: space-between;
+            margin-bottom: 30px;
+        }
+
+        .section-small-title {
+            font-size: 13px;
+            letter-spacing: 3px;
+            font-weight: bold;
+            margin-bottom: 7px;
+        }
+
+        .section-heading h2 {
+            font-size: 43px;
+            font-style: italic;
+            color: #123e67;
+        }
+
+        .section-heading h2 span {
+            color: #17629d;
+        }
+
+        .view-all {
+            text-decoration: none;
+            color: #125b92;
+            font-weight: bold;
+            font-size: 15px;
+            padding-bottom: 7px;
+        }
+
+
+        /* ================= DESTINATION GRID ================= */
+
+        .destination-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 18px;
+            width: 100%;
+        }
+
+        .destination-card {
+            background: white;
+            border-radius: 17px;
+            overflow: hidden;
+            box-shadow: 0 5px 18px rgba(0,0,0,0.08);
+            transition: 0.3s;
+            min-width: 0;
+        }
+
+        .destination-card:hover {
+            transform: translateY(-7px);
+            box-shadow: 0 12px 28px rgba(0,0,0,0.15);
+        }
+
+        .card-image {
+            height: 205px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: 0.4s;
+        }
+
+        .destination-card:hover .card-image img {
+            transform: scale(1.07);
+        }
+
+        .heart {
+            position: absolute;
+            top: 13px;
+            right: 13px;
+            width: 38px;
+            height: 38px;
+            border: none;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.95);
+            color: #173e65;
+            font-size: 23px;
+            cursor: pointer;
+            z-index: 2;
+        }
+
+        .place-name {
+            position: absolute;
+            bottom: 13px;
+            left: 13px;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.8);
+        }
+
+        .card-content {
+            min-height: 82px;
+            padding: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+        }
+
+        .card-content p {
+            color: #5f7890;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .arrow {
+            width: 38px;
+            height: 38px;
+            flex-shrink: 0;
+            border: none;
+            border-radius: 50%;
+            background: #e8f3fc;
+            color: #17619c;
+            font-size: 21px;
+            cursor: pointer;
+        }
+
+
+        /* ================= WHY SECTION ================= */
+
+        .why-section {
+            width: 100%;
+            padding: 70px 5%;
+            background: white;
+            text-align: center;
+        }
+
+        .why-title p {
+            font-size: 13px;
+            letter-spacing: 3px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .why-title h2 {
+            font-size: 38px;
+            margin-bottom: 35px;
+            color: #123e67;
+        }
+
+        .why-title h2 span {
+            color: #17629d;
+        }
+
+        .why-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .why-card {
+            padding: 28px 20px;
+            border-radius: 18px;
+            background: #f8f5ee;
+            transition: 0.3s;
+        }
+
+        .why-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .why-icon {
+            font-size: 38px;
+            margin-bottom: 12px;
+        }
+
+        .why-card h3 {
+            color: #123e67;
+            margin-bottom: 8px;
+        }
+
+        .why-card p {
+            color: #6d7e8c;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+
+        /* ================= FOOTER ================= */
+
+        footer {
+            padding: 35px;
+            background: #123e67;
+            color: white;
+            text-align: center;
+        }
+
+        .footer-logo {
+            font-size: 22px;
+            font-weight: bold;
+            margin-bottom: 7px;
+        }
+
+        footer p {
+            font-size: 13px;
+        }
+
+        footer .copyright {
+            margin-top: 15px;
+            opacity: 0.7;
+        }
+
+
+        /* ================= RESPONSIVE ================= */
+
+        @media (max-width: 1200px) {
+
+            .destination-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .why-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 900px) {
+
+            .nav-links {
+                gap: 15px;
+            }
+
+            .hero h1 {
+                font-size: 48px;
+            }
+
+            .trip-box {
+                flex-wrap: wrap;
+            }
+
+            .input-box {
+                min-width: 30%;
+            }
+        }
+
+        @media (max-width: 700px) {
+
+            .nav-links {
+                display: none;
+            }
+
+            .hero {
+                height: 650px;
+                min-height: 650px;
+                padding: 120px 7% 80px;
+            }
+
+            .hero h1 {
+                font-size: 42px;
+            }
+
+            .features {
+                flex-wrap: wrap;
+                gap: 15px;
+            }
+
+            .trip-box {
+                position: relative;
+                left: 0;
+                bottom: 0;
+                width: 100%;
+                margin-top: 45px;
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .input-box {
+                width: 100%;
+                border-right: none;
+                border-bottom: 1px solid #ddd;
+            }
+
+            .plan-btn {
+                width: 100%;
+            }
+
+            .destinations {
+                padding-top: 70px;
+            }
+
+            .section-heading {
+                display: block;
+            }
+
+            .view-all {
+                display: block;
+                margin-top: 15px;
+            }
+
+            .destination-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .why-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        html,
+        body {
+            overflow-x: hidden;
+        }
+
+    </style>
+
 </head>
 
 <body>
