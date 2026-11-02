@@ -18,10 +18,9 @@ ENV_FILE = os.path.join(BASE_DIR, ".env")
 load_dotenv(ENV_FILE, override=True)
 
 
-app = Flask(__name__)
-app.secret_key = os.getenv(
-    "FLASK_SECRET_KEY",
-    "smart-travel-planner-local-key"
+app = Flask(__name__,
+            template_folder="templates",
+            static_folder="static"
 )
 
 # Identify this app when using OpenStreetMap public services.
